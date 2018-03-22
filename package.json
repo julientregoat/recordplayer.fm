@@ -1,0 +1,26 @@
+{
+  "name": "recordplayer.fm",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/server.js",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "disconnect": "^1.2.1",
+    "express": "^4.16.3",
+    "knex": "^0.14.4",
+    "nodemon": "^1.17.2",
+    "objection": "^1.0.0",
+    "pg": "^7.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npx babel src --out-dir dist",
+    "start": "npx nodemon dist/server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
