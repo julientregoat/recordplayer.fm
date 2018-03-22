@@ -30,7 +30,7 @@ app.use('/api', router);
 
 router.route('/')
 .get((req, res) => {
-  res.json({message: "working now???"});
+  res.json({message: "test"});
 });
 
 router.route('/callback').get((req, res) => {
