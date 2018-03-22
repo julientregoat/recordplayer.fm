@@ -2,6 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const babel = require('babel-core')
 
 const DiscogsClient = require('disconnect').Client
 const Discogs = new DiscogsClient('recordplayer.fm/0.0.1');
@@ -29,14 +30,19 @@ app.use('/api', router);
 
 router.route('/')
 .get((req, res) => {
-  res.json({message: "Initialized!"});
+  res.json({message: "working now???"});
 });
 
 router.route('/callback').get((req, res) => {
-    console.log(req.query)
-    // oauth_token and oauth_verifier are keys available to us here
-    res.json({success: 'poop'})
-})
+  const oAuth = new DiscogsClient(requestData).oauth();
+  	oAuth.getAccessToken(
+  		req.query.oauth_verifier, // Verification code sent back by Discogs
+  		function(err, accessData){
+  			// Persist "accessData" here for following OAuth calls
+  			res.send('Received access token!');
+  		}
+  	);
+  });
 
 router.route('/authorize').get((req, res) => {
 	const oAuth = new DiscogsClient().oauth();

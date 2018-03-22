@@ -15,10 +15,14 @@
     "objection": "^1.0.0",
     "pg": "^7.4.1"
   },
+  "nodemonConfig": {
+    "events": {
+      "start": "npx babel src --out-dir dist --watch"
+    }
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "npx babel src --out-dir dist",
-    "start": "npx nodemon dist/server.js"
+    "start": "nodemon dist/server.js --watch src"
   },
   "author": "Julien Tregoat",
   "license": "ISC"
