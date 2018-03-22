@@ -15,12 +15,11 @@
     "objection": "^1.0.0",
     "pg": "^7.4.1"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "npx babel src --out-dir dist",
     "start": "npx nodemon dist/server.js"
   },
-  "author": "",
+  "author": "Julien Tregoat",
   "license": "ISC"
 }
