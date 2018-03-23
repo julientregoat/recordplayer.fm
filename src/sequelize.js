@@ -14,8 +14,6 @@ const sequelize = new Sequelize('recordplayer', 'nodedb', 'nodedb', {
 
 export { Sequelize, sequelize }
 
-// previous Rails schema
-
 // create_table "artists", force: :cascade do |t|
 //   t.string "name"
 //   t.integer "discogs_id"

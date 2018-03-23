@@ -20,8 +20,6 @@ var sequelize = new Sequelize('recordplayer', 'nodedb', 'nodedb', {
 exports.Sequelize = Sequelize;
 exports.sequelize = sequelize;
 
-// previous Rails schema
-
 // create_table "artists", force: :cascade do |t|
 //   t.string "name"
 //   t.integer "discogs_id"
