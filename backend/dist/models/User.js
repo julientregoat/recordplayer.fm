@@ -8,10 +8,19 @@ exports.User = undefined;
 var _sequelize = require('../sequelize');
 
 var User = _sequelize.sequelize.define('user', {
-  firstName: {
+  username: {
     type: _sequelize.Sequelize.STRING
   },
-  lastName: {
+  password_digest: {
+    type: _sequelize.Sequelize.STRING
+  },
+  discogs_username: {
+    type: _sequelize.Sequelize.STRING
+  },
+  oauth_token: {
+    type: _sequelize.Sequelize.STRING
+  },
+  oauth_token_secret: {
     type: _sequelize.Sequelize.STRING
   }
 });

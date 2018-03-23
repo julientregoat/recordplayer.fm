@@ -4,6 +4,8 @@ const discogs = Express.Router()
 const DiscogsClient = require('disconnect').Client
 import { CONSUMER_KEY, CONSUMER_SECRET } from '../env'
 
+import discogsWorker from '../lib/discogsWorker'
+
 let userIdentity;
 // to store initial request data for later
 let requestData;
@@ -19,8 +21,6 @@ discogs.get('/authorize', (req, res) => {
 		'http://localhost:3001/discogs/callback',
 		function(err, data){
       requestData = data;
-			// Persist "requestData" here so that the callback handler can
-			// access it later after returning from the authorize url
 			res.redirect(requestData.authorizeUrl);
 		}
 	);
@@ -33,21 +33,20 @@ discogs.route('/callback').get((req, res) => {
 		function(err, data){
 			accessData = data;
       authorizedClient = new DiscogsClient(accessData)
+      // should handle storing user info in DB here?
       authorizedClient.getIdentity(function(err, data){
         userIdentity = data
-        res.redirect('/discogs/user')
+        res.redirect('/api/user')
       })
 		}
 	)
 })
 
 discogs.get('/user', (req, res) => {
+  // should route to API for user model.
+  // maybe if routing to created account different vs login?
   res.json({user: userIdentity})
+  discogsWorker(authorizedClient)
 })
-
-// dis.getReleases("jtregoat", 0, {page: 2, per_page: 75}, function (err, data){
-//   console.log("collection", err, data)
-//   res.json(data)
-// })
 
 export default discogs

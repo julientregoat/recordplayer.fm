@@ -1,10 +1,19 @@
 import { Sequelize, sequelize }  from '../sequelize'
 
 const User = sequelize.define('user', {
-  firstName: {
+  username: {
     type: Sequelize.STRING
   },
-  lastName: {
+  password_digest: {
+    type: Sequelize.STRING
+  },
+  discogs_username: {
+    type: Sequelize.STRING
+  },
+  oauth_token: {
+    type: Sequelize.STRING
+  },
+  oauth_token_secret: {
     type: Sequelize.STRING
   }
 });
