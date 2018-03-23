@@ -11,11 +11,17 @@ var User = _sequelize.sequelize.define('user', {
   username: {
     type: _sequelize.Sequelize.STRING
   },
+  email: {
+    type: _sequelize.Sequelize.STRING
+  },
   password_digest: {
     type: _sequelize.Sequelize.STRING
   },
   discogs_username: {
     type: _sequelize.Sequelize.STRING
+  },
+  authenticated: {
+    type: _sequelize.Sequelize.BOOLEAN
   },
   oauth_token: {
     type: _sequelize.Sequelize.STRING

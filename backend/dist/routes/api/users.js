@@ -8,19 +8,12 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _users = require('./api/users');
-
-var _users2 = _interopRequireDefault(_users);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var api = _express2.default.Router();
+var users = _express2.default.Router();
 
-
-api.use('/users', _users2.default);
-
-api.get('/', function (req, res) {
-  res.json({ error: 'invalid location' });
+users.get('/', function (req, res) {
+  res.json({ message: "api/users" });
 });
 
-exports.default = api;
+exports.default = users;
