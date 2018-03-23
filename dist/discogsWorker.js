@@ -1,5 +1,14 @@
 'use strict';
 
+var _env = require('./env');
+
 var DiscogsClient = require('disconnect').Client;
-var Discogs = new DiscogsClient('recordplayer.fm/0.0.1');
-var discogsDB = new DiscogsClient().database();
+
+
+var oAuth = new DiscogsClient().oauth();
+oAuth.getRequestToken(_env.CONSUMER_KEY, _env.CONSUMER_SECRET, 'http://localhost:3001/api/callback', function (err, requestData) {
+  var authReq = requestData;
+  // Persist "requestData" here so that the callback handler can
+  // access it later after returning from the authorize url
+  res.redirect(requestData.authorizeUrl);
+});

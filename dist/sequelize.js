@@ -1,6 +1,11 @@
-const Sequelize = require('sequelize');
+'use strict';
 
-const sequelize = new Sequelize('recordplayer', 'nodedb', 'nodedb', {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var Sequelize = require('sequelize');
+
+var sequelize = new Sequelize('recordplayer', 'nodedb', 'nodedb', {
   host: 'localhost',
   dialect: 'postgres',
   operatorsAliases: false,
@@ -9,10 +14,11 @@ const sequelize = new Sequelize('recordplayer', 'nodedb', 'nodedb', {
     min: 0,
     acquire: 30000,
     idle: 10000
-  },
+  }
 });
 
-export { Sequelize, sequelize }
+exports.Sequelize = Sequelize;
+exports.sequelize = sequelize;
 
 // previous Rails schema
 
