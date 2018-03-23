@@ -2,7 +2,14 @@ import { Sequelize, sequelize }  from '../sequelize'
 
 const User = sequelize.define('user', {
   username: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate: {
+      notEmpty: true,
+      isUnique: (value) => {
+        User.find({ where: {username: value} })
+        .then(console.log)
+      }
+    }
   },
   email: {
     type: Sequelize.STRING
@@ -10,11 +17,12 @@ const User = sequelize.define('user', {
   password_digest: {
     type: Sequelize.STRING
   },
+  authenticated: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   discogs_username: {
     type: Sequelize.STRING
-  },
-  authenticated: {
-    type: Sequelize.BOOLEAN
   },
   oauth_token: {
     type: Sequelize.STRING
@@ -24,7 +32,4 @@ const User = sequelize.define('user', {
   }
 });
 
-User.sync()
-.then(console.log)
-
-export { User }
+export default User

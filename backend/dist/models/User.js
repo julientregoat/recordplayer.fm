@@ -3,13 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.User = undefined;
 
 var _sequelize = require('../sequelize');
 
 var User = _sequelize.sequelize.define('user', {
   username: {
-    type: _sequelize.Sequelize.STRING
+    type: _sequelize.Sequelize.STRING,
+    validate: {
+      notEmpty: true,
+      isUnique: function isUnique(value) {
+        User.find({ where: { username: value } }).then(console.log);
+      }
+    }
   },
   email: {
     type: _sequelize.Sequelize.STRING
@@ -17,11 +22,12 @@ var User = _sequelize.sequelize.define('user', {
   password_digest: {
     type: _sequelize.Sequelize.STRING
   },
+  authenticated: {
+    type: _sequelize.Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   discogs_username: {
     type: _sequelize.Sequelize.STRING
-  },
-  authenticated: {
-    type: _sequelize.Sequelize.BOOLEAN
   },
   oauth_token: {
     type: _sequelize.Sequelize.STRING
@@ -31,6 +37,4 @@ var User = _sequelize.sequelize.define('user', {
   }
 });
 
-User.sync().then(console.log);
-
-exports.User = User;
+exports.default = User;
