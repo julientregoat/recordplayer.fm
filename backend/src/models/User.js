@@ -4,11 +4,7 @@ const User = sequelize.define('user', {
   username: {
     type: Sequelize.STRING,
     validate: {
-      notEmpty: true,
-      isUnique: (value) => {
-        User.find({ where: {username: value} })
-        .then(console.log)
-      }
+      notEmpty: true
     }
   },
   email: {
@@ -30,6 +26,17 @@ const User = sequelize.define('user', {
   oauth_token_secret: {
     type: Sequelize.STRING
   }
-});
+}, {
+  validate: {
+    isUnique(){
+      User.find({ where: {username: this.username} })
+      .then(result => {
+        if (result){
+          throw new Error ('username must be unique')
+        }
+      })
+    }
+  }
+})
 
 export default User

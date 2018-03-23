@@ -10,10 +10,7 @@ var User = _sequelize.sequelize.define('user', {
   username: {
     type: _sequelize.Sequelize.STRING,
     validate: {
-      notEmpty: true,
-      isUnique: function isUnique(value) {
-        User.find({ where: { username: value } }).then(console.log);
-      }
+      notEmpty: true
     }
   },
   email: {
@@ -34,6 +31,16 @@ var User = _sequelize.sequelize.define('user', {
   },
   oauth_token_secret: {
     type: _sequelize.Sequelize.STRING
+  }
+}, {
+  validate: {
+    isUnique: function isUnique() {
+      User.find({ where: { username: this.username } }).then(function (result) {
+        if (result) {
+          throw new Error('username must be unique');
+        }
+      });
+    }
   }
 });
 
