@@ -18,10 +18,15 @@ users.route('/').get(function (req, res) {
   res.json({ message: "api/users" });
 }).post(function (req, res) {
   console.log(req.body);
-  // man validations I guess
-  _models.User.find({ where: { username: 'jtregoat' } }).then(console.log);
-  _models.User.build({ username: 'jtregoat' }).save().then(function () {
-    return console.log('transaction complete');
+  // manual validations I guess
+  // User.find({where: {username: 'jtregoat'}})
+  // .then(result => {
+  //   if (result){
+  //     return res.json({error: "username already exists"})
+  //   }
+  // })
+  _models.User.build({ username: 'jtregoat' }).save().then(function (poop) {
+    return console.log('transaction complete', poop);
   }).catch(function (err) {
     return console.log('error', err);
   });

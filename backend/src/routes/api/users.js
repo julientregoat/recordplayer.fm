@@ -8,12 +8,17 @@ users.route('/')
 })
 .post((req, res) => {
   console.log(req.body)
-  // man validations I guess
-  User.find({where: {username: 'jtregoat'}})
-  .then(console.log)
+  // manual validations I guess
+  // User.find({where: {username: 'jtregoat'}})
+  // .then(result => {
+  //   if (result){
+  //     return res.json({error: "username already exists"})
+  //   }
+  // })
   User.build({username: 'jtregoat'})
-  .save().then(() => console.log('transaction complete'))
-  .catch(err => console.log('error', err))
+  .save()
+  .then((poop) => console.log('transaction complete', poop))
+  .catch((err) => console.log('error', err))
   // .then(result => res.json(result))
   // test
 })

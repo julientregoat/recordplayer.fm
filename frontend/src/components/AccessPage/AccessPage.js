@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd'
+import { Grid } from 'semantic-ui-react'
 
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
@@ -26,14 +26,14 @@ class AccessPage extends Component {
 
   render() {
     return (
-      <Row type="flex" justify="space-around" gutter={4}>
-        <Col span={6}>
+      <Grid.Row type="flex" justify="space-around" gutter={4}>
+        <Grid.Column width={6}>
           <LoginForm loginCallback={this.handleLogin}/>
-        </Col>
-        <Col span={6}>
+        </Grid.Column>
+        <Grid.Column width={6}>
           <SignupForm signupCallback={this.handleSignup}/>
-        </Col>
-      </Row>
+        </Grid.Column>
+      </Grid.Row>
     );
   }
 

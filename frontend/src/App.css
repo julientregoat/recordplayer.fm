@@ -1,11 +1,53 @@
-@import '~antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300|Roboto+Condensed:700');
+
+body {
+  background-image: url('./topography.png');
+  background-repeat: repeat;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Condensed' !important;
+}
 
 .app {
-  margin-left: 250px;
-  margin-right: 250px;
-  margin-top: 25px;
+  margin-left: 100px !important;
+  margin-right: 100px !important;
+  margin-top: 25px !important;
 }
 
 .header {
-  margin-bottom: 100px;
+  margin-bottom: 100px !important;
+}
+
+/*   header animation */
+
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.tracking-in-expand {
+  -webkit-animation: tracking-in-expand 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  animation: tracking-in-expand 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
 }
