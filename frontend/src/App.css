@@ -11,43 +11,48 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app {
-  margin-left: 100px !important;
-  margin-right: 100px !important;
-  margin-top: 25px !important;
+  margin-left: 75px !important;
+  margin-right: 75px !important;
+  margin-top: 10px !important;
 }
 
 .header {
-  margin-bottom: 100px !important;
+  margin-bottom: 25px !important;
+}
+
+.header-logo{
+  height: 100px !important;
+  width: 100px !important;
 }
 
 /*   header animation */
 
-@-webkit-keyframes tracking-in-expand {
+@-webkit-keyframes text-focus-in {
   0% {
-    letter-spacing: -0.5em;
+    -webkit-filter: blur(12px);
+            filter: blur(12px);
     opacity: 0;
   }
-  40% {
-    opacity: 0.6;
-  }
   100% {
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
     opacity: 1;
   }
 }
-@keyframes tracking-in-expand {
+@keyframes text-focus-in {
   0% {
-    letter-spacing: -0.5em;
+    -webkit-filter: blur(12px);
+            filter: blur(12px);
     opacity: 0;
   }
-  40% {
-    opacity: 0.6;
-  }
   100% {
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
     opacity: 1;
   }
 }
 
-.tracking-in-expand {
-  -webkit-animation: tracking-in-expand 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
-  animation: tracking-in-expand 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+.text-focus-in {
+	-webkit-animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 }

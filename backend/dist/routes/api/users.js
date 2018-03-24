@@ -15,7 +15,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var users = _express2.default.Router();
 
 users.route('/').get(function (req, res) {
-  res.json({ message: "api/users" });
+  _models.User.findAll().then(function (result) {
+    return res.json(result);
+  });
 }).post(function (req, res) {
   console.log(req.body);
   // manual validations I guess

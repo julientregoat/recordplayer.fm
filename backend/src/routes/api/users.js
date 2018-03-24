@@ -4,7 +4,8 @@ const users = Express.Router()
 
 users.route('/')
 .get((req, res) => {
-  res.json({message: "api/users"})
+  User.findAll().
+  then(result => res.json(result))
 })
 .post((req, res) => {
   console.log(req.body)

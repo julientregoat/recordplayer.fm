@@ -6,6 +6,10 @@ import SignupForm from './SignupForm'
 
 class AccessPage extends Component {
 
+  state = {
+    loginView: true
+  }
+
   handleLogin = event => {
     event.preventDefault()
     fetch('http://localhost:3001/api/users/session', {
@@ -26,12 +30,9 @@ class AccessPage extends Component {
 
   render() {
     return (
-      <Grid.Row type="flex" justify="space-around" gutter={4}>
+      <Grid.Row centered>
         <Grid.Column width={6}>
-          <LoginForm loginCallback={this.handleLogin}/>
-        </Grid.Column>
-        <Grid.Column width={6}>
-          <SignupForm signupCallback={this.handleSignup}/>
+          {this.state.loginView ? <LoginForm loginCallback={this.handleLogin}/> : <SignupForm signupCallback={this.handleSignup}/> }
         </Grid.Column>
       </Grid.Row>
     );

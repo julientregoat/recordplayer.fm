@@ -3,7 +3,7 @@ import { Switch, Redirect, Route } from 'react-router-dom'
 
 import { Grid } from 'semantic-ui-react'
 
-import Header from './components/Header/Header'
+import HeaderContainer from './components/Header/HeaderContainer'
 import AccessPage from './components/AccessPage/AccessPage'
 import './App.css';
 
@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <Grid className="app">
-        <Header />
+        <HeaderContainer />
         <Switch>
           <Route to="/access" component={AccessPage} />
         </Switch>
