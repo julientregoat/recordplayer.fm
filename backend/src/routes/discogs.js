@@ -2,7 +2,7 @@ import Express from 'express'
 const discogs = Express.Router()
 
 const DiscogsClient = require('disconnect').Client
-import { CONSUMER_KEY, CONSUMER_SECRET } from '../env'
+import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env'
 
 import discogsWorker from '../lib/discogsWorker'
 

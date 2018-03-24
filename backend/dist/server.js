@@ -14,9 +14,8 @@ var _discogs2 = _interopRequireDefault(_discogs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var bodyParser = require('body-parser');
-
 var app = (0, _express2.default)();
+var bodyParser = require('body-parser');
 
 var port = process.env.API_PORT || 3001;
 

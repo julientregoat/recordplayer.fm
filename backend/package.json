@@ -14,7 +14,8 @@
     "nodemon": "^1.17.2",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.37.3"
+    "sequelize": "^4.37.3",
+    "sequelize-cli": "^4.0.0"
   },
   "nodemonConfig": {
     "events": {
@@ -23,7 +24,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dist/server.js --watch src"
+    "start": "nodemon dist/server.js --watch src --watch models --watch migrations --watch config --watch seeders --watch package.json"
   },
   "author": "Julien Tregoat",
   "license": "ISC"

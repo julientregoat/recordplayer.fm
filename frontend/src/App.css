@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300|Roboto+Condensed:700');
 
+/*  general layout */
+
 body {
   background-image: url('./topography.png');
   background-repeat: repeat;
@@ -16,6 +18,8 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 10px !important;
 }
 
+/*   header  */
+
 .header {
   margin-bottom: 25px !important;
 }
@@ -24,8 +28,6 @@ h1, h2, h3, h4, h5, h6 {
   height: 100px !important;
   width: 100px !important;
 }
-
-/*   header animation */
 
 @-webkit-keyframes text-focus-in {
   0% {
@@ -55,4 +57,10 @@ h1, h2, h3, h4, h5, h6 {
 .text-focus-in {
 	-webkit-animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 	        animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+/*  main */
+
+.change-form {
+  margin-top: 25px;
 }

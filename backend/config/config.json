@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "nodedb",
+    "password": "nodedb",
+    "database": "recordplayer",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "nodedb",
+    "password": "nodedb",
+    "database": "recordplayer",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "nodedb",
+    "password": "nodedb",
+    "database": "recordplayer",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}

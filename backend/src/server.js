@@ -1,9 +1,9 @@
 'use strict'
 
 import Express from 'express'
-const bodyParser = require('body-parser');
 
 const app = Express();
+const bodyParser = require('body-parser');
 
 import api from './routes/api'
 import discogs from './routes/discogs'
