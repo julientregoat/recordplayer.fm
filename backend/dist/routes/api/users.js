@@ -52,7 +52,7 @@ users.route('/:id/collection').get(function (req, res) {
   _models.User.findById(id).then(function (user) {
     return user.getPlaylists({ where: { name: 'Collection' } });
   }).then(function (playlists) {
-    return playlists[0].getTracks({ include: [{ model: _models.Video }] });
+    return playlists[0].getTracks({ include: [{ model: _models.Video }, { model: _models.Release }] });
   }).then(function (tracks) {
     return res.json({ tracks: tracks });
   });

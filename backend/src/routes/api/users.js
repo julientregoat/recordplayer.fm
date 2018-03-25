@@ -46,7 +46,7 @@ users.route('/:id/collection')
   let id = req.params.id;
   User.findById(id)
   .then(user => user.getPlaylists({where: {name: 'Collection'}}))
-  .then(playlists => playlists[0].getTracks({include: [{model: Video}]}))
+  .then(playlists => playlists[0].getTracks({include: [{model: Video}, {model: Release}]}))
   .then(tracks => res.json({tracks: tracks}))
 })
 
