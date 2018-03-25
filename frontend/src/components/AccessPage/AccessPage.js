@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react'
 
+import { Redirect } from 'react-router-dom'
+
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 
@@ -27,7 +29,7 @@ class AccessPage extends Component {
       })
     })
     .then(res => res.json())
-    .then(console.log)
+    .then(user => this.props.login(user.user))
   }
 
   handleSignup = event => {
@@ -66,7 +68,7 @@ class AccessPage extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Grid>
         <Grid.Row centered>
           <Grid.Column width={6}>
             {this.state.loginView ?
@@ -77,7 +79,8 @@ class AccessPage extends Component {
         <Grid.Row centered>
           {this.formChanger()}
         </Grid.Row>
-      </React.Fragment>
+        {this.props.currentUser ? <Redirect to="/home"/> : null}
+      </Grid>
     );
   }
 

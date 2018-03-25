@@ -13,15 +13,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app {
-  margin-left: 75px !important;
-  margin-right: 75px !important;
+  margin-left: 100px !important;
+  margin-right: 100px !important;
   margin-top: 10px !important;
 }
 
 /*   header  */
 
 .header {
-  margin-bottom: 25px !important;
+  margin-bottom: 10px !important;
 }
 
 .header-logo{
@@ -59,8 +59,18 @@ h1, h2, h3, h4, h5, h6 {
 	        animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 }
 
-/*  main */
+/*  access page */
 
 .change-form {
   margin-top: 25px;
+}
+
+/*  home page */
+
+.home-page {
+  margin-left: 50px !important;
+}
+
+.logout-button {
+  margin-right: 50px !important;
 }
