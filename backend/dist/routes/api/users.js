@@ -16,7 +16,9 @@ var users = _express2.default.Router();
 var bcrypt = require('bcrypt');
 
 users.route('/').get(function (req, res) {
-  _models.Release.findAll().then(console.log);
+  _models.Release.count().then(function (num) {
+    return res.json({ count: num });
+  });
 }).post(function (req, res) {
 
   // hashing password for security

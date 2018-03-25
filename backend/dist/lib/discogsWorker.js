@@ -22,12 +22,18 @@ function discogsWorker(client, userId) {
     for (var i = 1; i <= pageCount; i++) {
       client.user().collection().getReleases("jtregoat", 0, { page: i, per_page: 250 }).then(function (info) {
         info.releases.forEach(function (release) {
-          Release.findOrCreate({ where: { title: release.basic_information.title, catno: release.basic_information.labels[0].catno, discogs_id: release.basic_information.id, year: release.year } }).then(console.log);
+          Release.findOrCreate({ where: { title: release.basic_information.title, catno: release.basic_information.labels[0].catno, discogs_id: release.basic_information.id, year: release.basic_information.year } }).spread(function (info, created) {
+            return console.log(created);
+          });
           release.basic_information.artists.forEach(function (artist) {
-            return Artist.findOrCreate({ where: { name: artist.name, discogs_id: artist.id } }).then(console.log);
+            return Artist.findOrCreate({ where: { name: artist.name, discogs_id: artist.id } }).spread(function (info, created) {
+              return console.log(created);
+            });
           });
           release.basic_information.labels.forEach(function (label) {
-            return Label.findOrCreate({ where: { name: label.name, discogs_id: label.id } }).then(console.log);
+            return Label.findOrCreate({ where: { name: label.name, discogs_id: label.id } }).spread(function (info, created) {
+              return console.log(created);
+            });
           });
         });
       });

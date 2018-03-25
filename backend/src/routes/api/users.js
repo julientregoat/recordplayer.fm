@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 
 users.route('/')
 .get((req, res) => {
-  Release.findAll().then(console.log)
+  Release.count().then(num => res.json({count: num}))
 })
 .post((req, res) => {
 

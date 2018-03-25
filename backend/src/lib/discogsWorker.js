@@ -15,9 +15,9 @@ function discogsWorker(client, userId){
       client.user().collection().getReleases("jtregoat", 0, {page: i, per_page: 250})
       .then(info => {
         info.releases.forEach(release => {
-          Release.findOrCreate({where: {title: release.basic_information.title, catno: release.basic_information.labels[0].catno, discogs_id: release.basic_information.id, year: release.year}}).then(console.log)
-          release.basic_information.artists.forEach(artist => Artist.findOrCreate({where: {name: artist.name, discogs_id: artist.id}}).then(console.log))
-          release.basic_information.labels.forEach(label => Label.findOrCreate({where: {name: label.name, discogs_id: label.id}}).then(console.log))
+          Release.findOrCreate({where: {title: release.basic_information.title, catno: release.basic_information.labels[0].catno, discogs_id: release.basic_information.id, year: release.basic_information.year}}).spread((info, created) => console.log(created))
+          release.basic_information.artists.forEach(artist => Artist.findOrCreate({where: {name: artist.name, discogs_id: artist.id}}).spread((info, created) => console.log(created)))
+          release.basic_information.labels.forEach(label => Label.findOrCreate({where: {name: label.name, discogs_id: label.id}}).spread((info, created) => console.log(created)))
         })
       })
     }
