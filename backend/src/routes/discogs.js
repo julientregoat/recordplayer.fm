@@ -49,17 +49,10 @@ discogs.route('/callback').get((req, res) => {
 				.then(user => user.update({authenticated: true, discogs_username: data.username, oauth_token: accessData.token, oauth_token_secret: accessData.tokenSecret}))
 				.then(console.log)
 				.catch(error => console.log('error', error))
+				// should start the discogs worker here for the account
         res.send('<script>window.close()</script>')
       })
 		}
 	)
 })
-
-discogs.get('/user', (req, res) => {
-  // should route to API for user model.
-  // maybe if routing to created account different vs login?
-  res.json({user: userIdentity})
-  discogsWorker(authorizedClient)
-})
-
 export default discogs

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     youtube_id: DataTypes.STRING
   }, {});
   Video.associate = function(models) {
-    // associations can be defined here
+    Video.hasMany(models.Track)
   };
   return Video;
 };

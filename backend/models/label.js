@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     discogs_id: DataTypes.INTEGER
   }, {});
   Label.associate = function(models) {
-    // associations can be defined here
+    Label.hasMany(models.Release)
   };
   return Label;
 };

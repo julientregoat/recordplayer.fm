@@ -16,9 +16,9 @@ var users = _express2.default.Router();
 var bcrypt = require('bcrypt');
 
 users.route('/').get(function (req, res) {
-  _models.User.findAll().then(function (result) {
-    return res.json(result);
-  });
+  _models.User.findById(1).then(function (user) {
+    return user.getPlaylists();
+  }).then(console.log);
 }).post(function (req, res) {
   console.log(req.body);
   bcrypt.hash(req.body.password, 10).then(function (hash) {

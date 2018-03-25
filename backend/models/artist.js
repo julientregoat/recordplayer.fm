@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     discogs_id: DataTypes.INTEGER
   }, {});
   Artist.associate = function(models) {
-    // associations can be defined here
+    Artist.belongsToMany(models.Release, {through: 'ArtistReleases'})
   };
   return Artist;
 };

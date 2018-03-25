@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING
   }, {});
   Playlist.associate = function(models) {
-    // associations can be defined here
+    Playlist.belongsTo(models.User)
+    Playlist.belongsToMany(models.Track, {through: 'PlaylistTracks'})
   };
   return Playlist;
 };

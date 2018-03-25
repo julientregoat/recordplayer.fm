@@ -60,16 +60,9 @@ discogs.route('/callback').get(function (req, res) {
 			}).then(console.log).catch(function (error) {
 				return console.log('error', error);
 			});
+			// should start the discogs worker here for the account
 			res.send('<script>window.close()</script>');
 		});
 	});
 });
-
-discogs.get('/user', function (req, res) {
-	// should route to API for user model.
-	// maybe if routing to created account different vs login?
-	res.json({ user: userIdentity });
-	(0, _discogsWorker2.default)(authorizedClient);
-});
-
 exports.default = discogs;

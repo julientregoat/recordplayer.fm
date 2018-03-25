@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     oauth_token_secret: DataTypes.STRING
   }, {});
   User.associate = function(models) {
-    // associations can be defined here
+    User.hasMany(models.Playlist)
   };
   return User;
 };

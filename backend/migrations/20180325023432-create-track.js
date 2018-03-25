@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Releases', {
+    return queryInterface.createTable('Tracks', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,14 +11,8 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      catno: {
+      position: {
         type: Sequelize.STRING
-      },
-      discogs_id: {
-        type: Sequelize.INTEGER
-      },
-      year: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -28,16 +22,23 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      LabelId: {
+      ReleaseId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Labels',
+          model: 'Releases',
+          key: 'id'
+        },
+      },
+      VideoId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Videos',
           key: 'id'
         }
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Releases');
+    return queryInterface.dropTable('Tracks');
   }
 };

@@ -7,7 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     year: DataTypes.INTEGER
   }, {});
   Release.associate = function(models) {
-    // associations can be defined here
+    Release.belongsTo(models.Label)
+    Release.hasMany(models.Track)
+    Release.belongsToMany(models.Artist, {through: 'ArtistReleases'})
   };
   return Release;
 };
