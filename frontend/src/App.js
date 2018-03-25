@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   authenticateDiscogs = () => {
-    window.open("http://localhost:3001/discogs/authorize","Discogs Authoritzation",
+    window.open(`http://localhost:3001/discogs/authorize?user=${this.state.currentUser.id}`,"Discogs Authoritzation",
                                     "toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=1000,height=600")
   }
 

@@ -1,25 +1,15 @@
 import Express from 'express'
 const discogs = Express.Router()
 
+import { User } from '../../models'
+
 const DiscogsClient = require('disconnect').Client
 import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env'
-
 import discogsWorker from '../lib/discogsWorker'
 
-// TODO: OK SIGN UP AUTH FLOW
-// user goes to react app. they sign up with
-// their email, username, password, etc.
-// this is created via the api/users/create portal.
-//
-// on creation, returns user_id to the react app
-// login will work on same user_id for verification etc
-//
-// in that handshake, it will return user info - including if they're authenticated via discogs. if they're not,
-// they won't really be able to access their library.
-//
-// main page will just be account info if they're not discogs authenticated?
+// how dangerous are these variables? can they be overwritten if two people overlap when authorizing discogs accounts?
 
-
+let userID;
 let userIdentity;
 // to store initial request data for later
 let requestData;
@@ -27,12 +17,12 @@ let requestData;
 let accessData;
 let authorizedClient;
 
+// gotta be a better way to authorize a user, maybe on the front end?
+
+// to be more secure, check if the user has already authorized. then, if they have, they shouldn't be allowed to reauth. then it should be fine
+
 discogs.get('/authorize', (req, res) => {
-  // NOPE -- user must make account first.
-  // THEN, they have to authorize their account
-  // perhaps this should be done first, before any other user info is taken
-  // then, you can return user info to the frontend with which they can submit it back to the back end in one go for
-  // no, it has to be done last
+	userID = req.query['user']
 	const oAuth = new DiscogsClient().oauth();
 	oAuth.getRequestToken(
 		CONSUMER_KEY,
@@ -55,8 +45,11 @@ discogs.route('/callback').get((req, res) => {
       authorizedClient = new DiscogsClient(accessData)
       // should handle storing user info in DB here?
       authorizedClient.getIdentity(function(err, data){
-        userIdentity = data
-        res.redirect('/api/user')
+				User.findById(userID)
+				.then(user => user.update({authenticated: true, discogs_username: data.username, oauth_token: accessData.token, oauth_token_secret: accessData.tokenSecret}))
+				.then(console.log)
+				.catch(error => console.log('error', error))
+        res.send('<script>window.close()</script>')
       })
 		}
 	)
