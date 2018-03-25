@@ -1,7 +1,7 @@
 import Express from 'express'
 const discogs = Express.Router()
 
-import { User } from '../../models'
+import { User, Release } from '../../models'
 
 const DiscogsClient = require('disconnect').Client
 import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env'
@@ -20,6 +20,17 @@ let authorizedClient;
 // gotta be a better way to authorize a user, maybe on the front end?
 
 // to be more secure, check if the user has already authorized. then, if they have, they shouldn't be allowed to reauth. then it should be fine
+
+discogs.get('/test', (req, res) => {
+	let client;
+	User.findById(1).then(result => {
+		client = new DiscogsClient({method: 'oauth', level: 2, consumerKey: CONSUMER_KEY, consumerSecret: CONSUMER_SECRET, token: result.oauth_token, token_secret: result.oauth_token_secret})
+		return Release.findById(1)
+	})
+	.then(release => {
+		client.database().getRelease(release.discogs_id).then(console.log)
+	})
+})
 
 discogs.get('/authorize', (req, res) => {
 	userID = req.query['user']

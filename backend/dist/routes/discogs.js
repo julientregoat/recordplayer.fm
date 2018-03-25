@@ -37,6 +37,16 @@ var authorizedClient = void 0;
 
 // to be more secure, check if the user has already authorized. then, if they have, they shouldn't be allowed to reauth. then it should be fine
 
+discogs.get('/test', function (req, res) {
+	var client = void 0;
+	_models.User.findById(1).then(function (result) {
+		client = new DiscogsClient({ method: 'oauth', level: 2, consumerKey: _env.CONSUMER_KEY, consumerSecret: _env.CONSUMER_SECRET, token: result.oauth_token, token_secret: result.oauth_token_secret });
+		return _models.Release.findById(1);
+	}).then(function (release) {
+		client.database().getRelease(release.discogs_id).then(console.log);
+	});
+});
+
 discogs.get('/authorize', function (req, res) {
 	userID = req.query['user'];
 	var oAuth = new DiscogsClient().oauth();
