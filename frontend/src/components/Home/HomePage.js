@@ -14,8 +14,7 @@ class HomePage extends Component {
         <Grid.Row>
           <h2>welcome, {this.props.currentUser.username}</h2>
         </Grid.Row>
-        {this.props.currentUser.authenticated ? <Library /> : <Authenticate />}
-        {this.props.currentUser ? null : <Redirect to="/goodbye" />}
+        {this.props.currentUser.authenticated ? <Library /> : <Authenticate discogsAuth={this.props.discogsAuth}/>}
       </Grid>
     );
   }

@@ -28,6 +28,11 @@ class App extends Component {
     window.localStorage.removeItem('currentUser')
   }
 
+  authenticateDiscogs = () => {
+    window.open("http://localhost:3001/discogs/authorize","Discogs Authoritzation",
+                                    "toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=1000,height=600")
+  }
+
   render() {
     return (
       <div className="app">
@@ -37,6 +42,7 @@ class App extends Component {
             {...routerProps}
             currentUser={this.state.currentUser}
             logout={this.logout}
+            discogsAuth={this.authenticateDiscogs}
             />}/> : null}
           <Route path="/access" render={routerProps => <AccessPage {...routerProps} login={this.login} currentUser={this.state.currentUser}/>}/>
           <Redirect to="/access" />
