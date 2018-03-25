@@ -51,7 +51,13 @@ class AccessPage extends Component {
       })
     })
     .then(res => res.json())
-    .then(console.log)
+    .then(json => {
+      console.log(json)
+      if (json.error){
+        return alert('error')
+      }
+      this.setState({user: json.message})
+    })
   }
 
   formChanger(){

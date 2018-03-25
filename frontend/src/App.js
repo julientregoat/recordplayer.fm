@@ -13,7 +13,7 @@ class App extends Component {
 
   // use localstorage more securely when I get serious about deploying
   componentDidMount(){
-    if (window.localStorage.currentUser){
+    if (window.localStorage.currentUser && window.localStorage.currentUser !== 'undefined'){
       this.setState({currentUser: JSON.parse(window.localStorage.currentUser)})
     }
   }

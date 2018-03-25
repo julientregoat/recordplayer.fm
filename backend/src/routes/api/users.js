@@ -1,26 +1,26 @@
 import Express from 'express'
-import { User } from '../../../models'
+import { User, Playlist, Release } from '../../../models'
 
 const users = Express.Router()
 const bcrypt = require('bcrypt')
 
 users.route('/')
 .get((req, res) => {
-  User.findById(1)
-  .then(user => user.getPlaylists())
-  .then(console.log)
+  Release.findAll().then(console.log)
 })
 .post((req, res) => {
-  console.log(req.body)
+
+  // hashing password for security
   bcrypt.hash(req.body.password, 10)
   .then(hash => {
-    return User.create({username: req.body.username, email: req.body.email, password_digest: hash})
+    // creating default playlist 'collection' for the user
+    return Promise.all([User.create({username: req.body.username, email: req.body.email, password_digest: hash}), Playlist.create({name: "Collection"})])
   })
-  .then(result => res.json({result: result}))
-  .catch(error => res.json({error: error}))
+  .then(result => result[0].addPlaylist(result[1]))
+  .then(console.log)
+  .catch(console.log)
 
 })
-
 
 users.route('/session')
 .post((req, res) => {

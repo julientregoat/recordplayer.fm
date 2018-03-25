@@ -44,6 +44,7 @@ discogs.route('/callback').get((req, res) => {
       console.log(accessData)
       authorizedClient = new DiscogsClient(accessData)
       // should handle storing user info in DB here?
+			discogsWorker(authorizedClient, userID)
       authorizedClient.getIdentity(function(err, data){
 				User.findById(userID)
 				.then(user => user.update({authenticated: true, discogs_username: data.username, oauth_token: accessData.token, oauth_token_secret: accessData.tokenSecret}))
@@ -55,4 +56,11 @@ discogs.route('/callback').get((req, res) => {
 		}
 	)
 })
+
+discogs.route('/worker').post((req, res) => {
+	console.log(req.body)
+  User.findById(req.body.id)
+  .then(result => discogsWorker(new DiscogsClient({method: 'oauth', level: 2, consumerKey: CONSUMER_KEY, consumerSecret: CONSUMER_SECRET, token: result.oauth_token, token_secret: result.oauth_token_secret}), result.id))
+})
+
 export default discogs
