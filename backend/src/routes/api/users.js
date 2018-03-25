@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 
 users.route('/')
 .get((req, res) => {
-  Release.count().then(num => res.json({count: num}))
+  User.findById(1).then(user => user.getPlaylists()).then(console.log)
 })
 .post((req, res) => {
 
@@ -14,11 +14,16 @@ users.route('/')
   bcrypt.hash(req.body.password, 10)
   .then(hash => {
     // creating default playlist 'collection' for the user
-    return Promise.all([User.create({username: req.body.username, email: req.body.email, password_digest: hash}), Playlist.create({name: "Collection"})])
+    return Promise.all([
+      User.create({username: req.body.username, email: req.body.email, password_digest: hash}), Playlist.create({name: "Collection"})
+    ])
   })
-  .then(result => result[0].addPlaylist(result[1]))
+  .then(result => {
+    res.json({user: result[0]})
+    return result[0].addPlaylist(result[1])
+  })
   .then(console.log)
-  .catch(console.log)
+  .catch(error => res.json({error: error}))
 
 })
 

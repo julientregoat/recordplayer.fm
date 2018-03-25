@@ -51,12 +51,12 @@ class AccessPage extends Component {
       })
     })
     .then(res => res.json())
-    .then(json => {
-      console.log(json)
-      if (json.error){
+    .then(user => {
+      console.log(user)
+      if (user.error){
         return alert('error')
       }
-      this.setState({user: json.message})
+      this.props.login(user);
     })
   }
 

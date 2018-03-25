@@ -16,9 +16,9 @@ var users = _express2.default.Router();
 var bcrypt = require('bcrypt');
 
 users.route('/').get(function (req, res) {
-  _models.Release.count().then(function (num) {
-    return res.json({ count: num });
-  });
+  _models.User.findById(1).then(function (user) {
+    return user.getPlaylists();
+  }).then(console.log);
 }).post(function (req, res) {
 
   // hashing password for security
@@ -26,8 +26,11 @@ users.route('/').get(function (req, res) {
     // creating default playlist 'collection' for the user
     return Promise.all([_models.User.create({ username: req.body.username, email: req.body.email, password_digest: hash }), _models.Playlist.create({ name: "Collection" })]);
   }).then(function (result) {
+    res.json({ user: result[0] });
     return result[0].addPlaylist(result[1]);
-  }).then(console.log).catch(console.log);
+  }).then(console.log).catch(function (error) {
+    return res.json({ error: error });
+  });
 });
 
 users.route('/session').post(function (req, res) {
