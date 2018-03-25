@@ -17,7 +17,6 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log(this.props.currentUser)
     return (
       <Grid className="home-page">
         <Grid.Row>

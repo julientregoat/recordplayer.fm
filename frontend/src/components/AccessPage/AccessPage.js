@@ -56,7 +56,7 @@ class AccessPage extends Component {
       if (user.error){
         return alert('error')
       }
-      this.props.login(user);
+      this.props.login(user.user);
     })
   }
 

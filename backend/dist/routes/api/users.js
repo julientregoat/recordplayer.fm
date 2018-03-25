@@ -33,6 +33,13 @@ users.route('/').get(function (req, res) {
   });
 });
 
+users.route('/:id').get(function (req, res) {
+  var id = req.params.id;
+  _models.User.findById(id).then(function (user) {
+    return res.json(user);
+  });
+});
+
 users.route('/session').post(function (req, res) {
   var selectedUser = void 0;
   _models.User.find({ where: { username: req.body.username } }).then(function (user) {

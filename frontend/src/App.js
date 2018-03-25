@@ -18,6 +18,12 @@ class App extends Component {
     }
   }
 
+  queryUserInfo = id => {
+    fetch(`http://localhost:3001/api/users/${id}`)
+    .then(res => res.json())
+    .then(user => this.login(user))
+  }
+
   login = user => {
     this.setState({currentUser: user})
     window.localStorage.setItem('currentUser', JSON.stringify(user))
@@ -31,6 +37,7 @@ class App extends Component {
   authenticateDiscogs = () => {
     window.open(`http://localhost:3001/discogs/authorize?user=${this.state.currentUser.id}`,"Discogs Authoritzation",
                                     "toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=1000,height=600")
+    setTimeout(() => this.queryUserInfo(this.state.currentUser.id), 10000)
   }
 
   render() {

@@ -27,6 +27,13 @@ users.route('/')
 
 })
 
+users.route('/:id')
+.get((req, res) => {
+  let id = req.params.id;
+  User.findById(id)
+  .then(user => res.json(user))
+})
+
 users.route('/session')
 .post((req, res) => {
   let selectedUser;
