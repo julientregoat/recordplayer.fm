@@ -3,6 +3,7 @@ const { Playlist, Artist, Label, Release} = require('../../models/index.js')
 // gonna need to refactor this behemoth
 
 function trackParser(client, releaseDiscogsId){
+  console.log(releaseDiscogsId)
   client.database().getRelease(releaseDiscogsId).then(console.log)
 }
 
@@ -10,7 +11,7 @@ function discogsWorker(client, userId){
   let playlist;
   let pageCount;
   let userReleaseIds;
-  let timeout = 10000
+  let timeout = 8000
 
   Playlist.find({where: {name: "Collection", UserId: userId}}).then(result => {
     playlist = result
@@ -36,8 +37,7 @@ function discogsWorker(client, userId){
             // finding or creating each label per release and associating the release to it (belongs to)
             release.basic_information.labels.forEach(label => Label.findOrCreate({where: {name: label.name, discogs_id: label.id}})
             .spread((labelInst, created) => labelInst.addRelease(releaseInst)))
-
-            setTimeout(() => trackParser(client, release.discogs_id), timeout+=5000)
+            setTimeout(() => trackParser(client, releaseInst.discogs_id), timeout+=2000)
 
           })
         })

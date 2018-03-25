@@ -13,6 +13,7 @@ var _require = require('../../models/index.js'),
 // gonna need to refactor this behemoth
 
 function trackParser(client, releaseDiscogsId) {
+  console.log(releaseDiscogsId);
   client.database().getRelease(releaseDiscogsId).then(console.log);
 }
 
@@ -20,7 +21,7 @@ function discogsWorker(client, userId) {
   var playlist = void 0;
   var pageCount = void 0;
   var userReleaseIds = void 0;
-  var timeout = 10000;
+  var timeout = 8000;
 
   Playlist.find({ where: { name: "Collection", UserId: userId } }).then(function (result) {
     playlist = result;
@@ -49,10 +50,9 @@ function discogsWorker(client, userId) {
                 return labelInst.addRelease(releaseInst);
               });
             });
-
             setTimeout(function () {
-              return trackParser(client, release.discogs_id);
-            }, timeout += 5000);
+              return trackParser(client, releaseInst.discogs_id);
+            }, timeout += 2000);
           });
         });
       });
