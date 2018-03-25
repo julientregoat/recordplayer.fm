@@ -33,27 +33,12 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+// if I sync when this starts, my join tables are made for me
+
+db.sequelize.sync()
+
 module.exports = db;
 
-// previous methods
-
-// def import_collection(username=USER)
-//   i = 1
-//   while i <= WRAPPER.get_user_collection(username, per_page: 100).pagination.pages
-//     collection_page = WRAPPER.get_user_collection(username, page: i, per_page: 100).releases
-//     collection_page.each do |release|
-//       info = release.basic_information
-//       new_release = Release.find_or_create_by(title: info.title, catno: info.labels.first.catno, discogs_id: info.id, year: info.year)
-//       info.artists.each do |artist|
-//         new_release.artists << Artist.find_or_create_by(name: artist.name, discogs_id: artist.id)
-//       end
-//       release_label = Label.find_or_create_by(name: info.labels.first.name, discogs_id: info.labels.first.id)
-//       release_label.releases << new_release
-//     end
-//     i += 1
-//   end
-// end
-//
 // def import_tracks_from_collection
 //   requests = 0
 //   Release.all.each do |release|

@@ -6,7 +6,11 @@ const bcrypt = require('bcrypt')
 
 users.route('/')
 .get((req, res) => {
-  User.findById(1).then(user => user.getPlaylists()).then(console.log)
+  User.findById(1)
+  .then(user => user.getPlaylists({where: {name: "Collection"}}))
+  .then(playlists => playlists[0].getTracks())
+  .then(console.log)
+  res.json({message: "working"})
 })
 .post((req, res) => {
 

@@ -17,8 +17,11 @@ var bcrypt = require('bcrypt');
 
 users.route('/').get(function (req, res) {
   _models.User.findById(1).then(function (user) {
-    return user.getPlaylists();
+    return user.getPlaylists({ where: { name: "Collection" } });
+  }).then(function (playlists) {
+    return playlists[0].getTracks();
   }).then(console.log);
+  res.json({ message: "working" });
 }).post(function (req, res) {
 
   // hashing password for security
