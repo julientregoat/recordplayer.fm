@@ -33,6 +33,11 @@ class HomePage extends Component {
     this.fetchCollection()
   }
 
+  componentDidUpdate(){
+    // should use componentDidUpdate to check release count and see if I need to update that
+
+  }
+
   render() {
     return (
       <Grid className="home-page">

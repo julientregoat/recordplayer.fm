@@ -16,7 +16,7 @@ const Collection = ({ callWorker, tracks}) => (
               <Table.Cell>{track.title}</Table.Cell>
               <Table.Cell>{track.Release.title}</Table.Cell>
               <Table.Cell>{track.Release.catno}</Table.Cell>
-              <Table.Cell><Button as="a" href="http://www.youtube.com">Listen</Button></Table.Cell>
+              <Table.Cell><Button as="a" href={"http://www.youtube.com/watch?v=" + track.Video.youtube_id}>Listen</Button></Table.Cell>
               <Table.Cell><Button as="a" href="http://www.youtube.com">Add To Playlist</Button></Table.Cell>
             </Table.Row>)
         ) : null}
