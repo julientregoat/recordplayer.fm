@@ -16,6 +16,10 @@ class HomePage extends Component {
     .then(res => res.json()).then(console.log)
   }
 
+  loadReleases = () => {
+    fetch('http://localhost:3001/api/users')
+  }
+
   render() {
     return (
       <Grid className="home-page">

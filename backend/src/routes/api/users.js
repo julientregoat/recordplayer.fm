@@ -1,5 +1,8 @@
 import Express from 'express'
-import { User, Playlist, Release } from '../../../models'
+import { User, Playlist, Release, Video } from '../../../models'
+
+const DiscogsClient = require('disconnect').Client
+import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env'
 
 const users = Express.Router()
 const bcrypt = require('bcrypt')
@@ -36,6 +39,15 @@ users.route('/:id')
   let id = req.params.id;
   User.findById(id)
   .then(user => res.json(user))
+})
+
+users.route('/:id/collection')
+.get((req, res) => {
+  let id = req.params.id;
+  User.findById(id)
+  .then(user => user.getPlaylists({where: {name: 'Collection'}}))
+  .then(playlists => playlists[0].getTracks({include: [{model: Video}]}))
+  .then(tracks => res.json({tracks: tracks}))
 })
 
 users.route('/session')

@@ -70,7 +70,7 @@ discogs.route('/callback').get((req, res) => {
 discogs.route('/worker').post((req, res) => {
 	console.log(req.body)
   User.findById(req.body.id)
-  .then(result => discogsWorker(new DiscogsClient({method: 'oauth', level: 2, consumerKey: CONSUMER_KEY, consumerSecret: CONSUMER_SECRET, token: result.oauth_token, token_secret: result.oauth_token_secret}), result.id))
+  .then(user => discogsWorker(new DiscogsClient({method: 'oauth', level: 2, consumerKey: CONSUMER_KEY, consumerSecret: CONSUMER_SECRET, token: user.oauth_token, token_secret: user.oauth_token_secret}), user.id))
 })
 
 export default discogs

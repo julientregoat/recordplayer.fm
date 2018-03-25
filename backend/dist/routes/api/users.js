@@ -10,7 +10,12 @@ var _express2 = _interopRequireDefault(_express);
 
 var _models = require('../../../models');
 
+var _env = require('../../env');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DiscogsClient = require('disconnect').Client;
+
 
 var users = _express2.default.Router();
 var bcrypt = require('bcrypt');
@@ -39,6 +44,17 @@ users.route('/:id').get(function (req, res) {
   var id = req.params.id;
   _models.User.findById(id).then(function (user) {
     return res.json(user);
+  });
+});
+
+users.route('/:id/collection').get(function (req, res) {
+  var id = req.params.id;
+  _models.User.findById(id).then(function (user) {
+    return user.getPlaylists({ where: { name: 'Collection' } });
+  }).then(function (playlists) {
+    return playlists[0].getTracks({ include: [{ model: _models.Video }] });
+  }).then(function (tracks) {
+    return res.json({ tracks: tracks });
   });
 });
 

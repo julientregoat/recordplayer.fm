@@ -81,8 +81,8 @@ discogs.route('/callback').get(function (req, res) {
 
 discogs.route('/worker').post(function (req, res) {
 	console.log(req.body);
-	_models.User.findById(req.body.id).then(function (result) {
-		return (0, _discogsWorker2.default)(new DiscogsClient({ method: 'oauth', level: 2, consumerKey: _env.CONSUMER_KEY, consumerSecret: _env.CONSUMER_SECRET, token: result.oauth_token, token_secret: result.oauth_token_secret }), result.id);
+	_models.User.findById(req.body.id).then(function (user) {
+		return (0, _discogsWorker2.default)(new DiscogsClient({ method: 'oauth', level: 2, consumerKey: _env.CONSUMER_KEY, consumerSecret: _env.CONSUMER_SECRET, token: user.oauth_token, token_secret: user.oauth_token_secret }), user.id);
 	});
 });
 
