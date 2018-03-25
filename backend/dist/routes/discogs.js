@@ -39,11 +39,13 @@ var authorizedClient = void 0;
 
 discogs.get('/test', function (req, res) {
 	var client = void 0;
-	_models.User.findById(1).then(function (result) {
-		client = new DiscogsClient({ method: 'oauth', level: 2, consumerKey: _env.CONSUMER_KEY, consumerSecret: _env.CONSUMER_SECRET, token: result.oauth_token, token_secret: result.oauth_token_secret });
-		return _models.Release.findById(1);
-	}).then(function (release) {
-		client.database().getRelease(release.discogs_id).then(console.log);
+	_models.User.findById(1).then(function (user) {
+		// client = new DiscogsClient({method: 'oauth', level: 2, consumerKey: CONSUMER_KEY, consumerSecret: CONSUMER_SECRET, token: user.oauth_token, token_secret: user.oauth_token_secret})
+		return user.getPlaylists();
+	}).then(function (playlists) {
+		return playlists[0].getTracks();
+	}).then(function (tracks) {
+		return console.log(tracks.length);
 	});
 });
 

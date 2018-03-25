@@ -1,20 +1,46 @@
-const { Playlist, Artist, Label, Release} = require('../../models/index.js')
+const { Playlist, Artist, Label, Release, Track, Video } = require('../../models/index.js')
 
 // gonna need to refactor this behemoth
 
-function trackParser(client, releaseDiscogsId){
-  console.log(releaseDiscogsId)
-  client.database().getRelease(releaseDiscogsId).then(console.log)
+function strftSeconds(seconds){
+  let minutes = parseInt(seconds)/60
+  let remainingSeconds = parseInt(seconds)%60
+  return minutes + ":" + remainingSeconds
+}
+
+function trackParser(client, releaseInst, userCollection){
+  console.log(releaseInst.discogs_id)
+  client.database().getRelease(releaseInst.discogs_id)
+  .then(release => {
+    release.tracklist.forEach(track => {
+      // if there's no matching release, just use the first one
+      let video = release.videos.find(video => video.title.includes(track.title)) || release.videos[0]
+      Promise.all([
+        Video.findOrCreate({where: {title: video.title, duration: strftSeconds(video.duration), youtube_id: video.uri.split('v=')[1]}}),
+        Track.findOrCreate({where: {title: track.title, position: track.position}})
+      ])
+      .then(results => {
+        // packaged in an array of arrays of the objs you wanted
+        let video = results[0][0]
+        let track = results[1][0]
+
+        video.addTrack(track)
+        releaseInst.addTrack(track)
+        userCollection.addTrack(track)
+      })
+    })
+  })
 }
 
 function discogsWorker(client, userId){
   let playlist;
   let pageCount;
   let userReleaseIds;
-  let timeout = 8000
+  let timeout = 5000
 
-  Playlist.find({where: {name: "Collection", UserId: userId}}).then(result => {
-    playlist = result
+  // finding the user's main 'collection playlist to fill with tracks'
+  Playlist.findOrCreate({where: {name: "Collection", UserId: userId}}).then(result => {
+    playlist = result[0]
     return client.user().collection().getReleases('jtregoat', 0, {page: 1, per_page: 250})
   })
   .then(collection => {
@@ -37,7 +63,9 @@ function discogsWorker(client, userId){
             // finding or creating each label per release and associating the release to it (belongs to)
             release.basic_information.labels.forEach(label => Label.findOrCreate({where: {name: label.name, discogs_id: label.id}})
             .spread((labelInst, created) => labelInst.addRelease(releaseInst)))
-            setTimeout(() => trackParser(client, releaseInst.discogs_id), timeout+=2000)
+
+            // this is getting better as far as rate limiting, still running into it a little though.
+            setTimeout(() => trackParser(client, releaseInst, playlist), timeout+=2500)
 
           })
         })

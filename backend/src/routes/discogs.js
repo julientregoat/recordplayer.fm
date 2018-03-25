@@ -23,13 +23,12 @@ let authorizedClient;
 
 discogs.get('/test', (req, res) => {
 	let client;
-	User.findById(1).then(result => {
-		client = new DiscogsClient({method: 'oauth', level: 2, consumerKey: CONSUMER_KEY, consumerSecret: CONSUMER_SECRET, token: result.oauth_token, token_secret: result.oauth_token_secret})
-		return Release.findById(1)
+	User.findById(1).then(user => {
+		// client = new DiscogsClient({method: 'oauth', level: 2, consumerKey: CONSUMER_KEY, consumerSecret: CONSUMER_SECRET, token: user.oauth_token, token_secret: user.oauth_token_secret})
+		return user.getPlaylists()
 	})
-	.then(release => {
-		client.database().getRelease(release.discogs_id).then(console.log)
-	})
+	.then(playlists => playlists[0].getTracks())
+	.then(tracks => console.log(tracks.length))
 })
 
 discogs.get('/authorize', (req, res) => {

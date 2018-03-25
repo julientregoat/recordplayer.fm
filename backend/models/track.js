@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   var Track = sequelize.define('Track', {
     title: DataTypes.STRING,
-    position: DataTypes.STRING
+    position: DataTypes.STRING,
   }, {});
   Track.associate = function(models) {
     Track.belongsTo(models.Release)
@@ -11,3 +11,5 @@ module.exports = (sequelize, DataTypes) => {
   };
   return Track;
 };
+
+// will I ever need to add the proper fields here or?
