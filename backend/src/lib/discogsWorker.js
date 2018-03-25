@@ -64,7 +64,8 @@ function discogsWorker(client, userId){
             release.basic_information.labels.forEach(label => Label.findOrCreate({where: {name: label.name, discogs_id: label.id}})
             .spread((labelInst, created) => labelInst.addRelease(releaseInst)))
 
-            // this is getting better as far as rate limiting, still running into it a little though.
+            // not sure about this timing situation
+            timeout >= 60000 ? timeout = 5000 : null
             setTimeout(() => trackParser(client, releaseInst, playlist), timeout+=2500)
 
           })

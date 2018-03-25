@@ -76,7 +76,8 @@ function discogsWorker(client, userId) {
               });
             });
 
-            // this is getting better as far as rate limiting, still running into it a little though.
+            // not sure about this timing situation
+            timeout >= 60000 ? timeout = 5000 : null;
             setTimeout(function () {
               return trackParser(client, releaseInst, playlist);
             }, timeout += 2500);

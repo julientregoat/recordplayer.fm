@@ -14,6 +14,8 @@ var _env = require('../../env');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var DiscogsClient = require('disconnect').Client;
 
 
@@ -48,13 +50,36 @@ users.route('/:id').get(function (req, res) {
 });
 
 users.route('/:id/collection').get(function (req, res) {
+  console.log(req.params, req.query);
   var id = req.params.id;
+  // defaults if there is no query added
+  var page = req.query.page || 0;
+  var size = req.query.size || 100;
+  var range = [size * page, size * page + 100];
+  var totalPages = void 0;
   _models.User.findById(id).then(function (user) {
     return user.getPlaylists({ where: { name: 'Collection' } });
   }).then(function (playlists) {
-    return playlists[0].getTracks({ include: [{ model: _models.Video }, { model: _models.Release }] });
-  }).then(function (tracks) {
-    return res.json({ tracks: tracks });
+    return Promise.all([_models.Track.findAndCountAll({
+      include: [{
+        model: _models.Playlist,
+        where: {
+          name: "Collection",
+          UserId: id
+        }
+      }]
+    }), playlists[0].getTracks({
+      where: {
+        id: _defineProperty({}, _models.Sequelize.Op.between, range)
+      },
+      include: [{ model: _models.Video }, { model: _models.Release, include: { model: _models.Artist } }]
+    })]);
+  }).then(function (results) {
+    console.log(results);
+    res.json({
+      totalPages: Math.ceil(results[0].count / size),
+      tracks: results[1]
+    });
   });
 });
 

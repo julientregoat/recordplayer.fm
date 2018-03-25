@@ -1,5 +1,5 @@
 import Express from 'express'
-import { User, Playlist, Release, Video } from '../../../models'
+import { User, Playlist, Release, Video, Sequelize, Artist, Track } from '../../../models'
 
 const DiscogsClient = require('disconnect').Client
 import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env'
@@ -43,11 +43,44 @@ users.route('/:id')
 
 users.route('/:id/collection')
 .get((req, res) => {
+  console.log(req.params, req.query)
   let id = req.params.id;
+  // defaults if there is no query added
+  let page = req.query.page || 0
+  let size = req.query.size || 100
+  let range = [size*page, size*page + 100]
+  let totalPages;
   User.findById(id)
   .then(user => user.getPlaylists({where: {name: 'Collection'}}))
-  .then(playlists => playlists[0].getTracks({include: [{model: Video}, {model: Release}]}))
-  .then(tracks => res.json({tracks: tracks}))
+  .then(playlists => {
+    return Promise.all([
+      Track.findAndCountAll({
+        include: [{
+          model: Playlist,
+          where: {
+            name: "Collection",
+            UserId: id
+          }
+        }]
+      }),
+      playlists[0].getTracks({
+        where: {
+          id: {[Sequelize.Op.between]: range}
+        },
+        include: [
+          {model: Video},
+          {model: Release, include: {model: Artist}}
+        ]
+      })
+    ])
+  })
+  .then(results => {
+    console.log(results)
+    res.json({
+      totalPages: Math.ceil(results[0].count/size),
+      tracks: results[1]
+    })
+  })
 })
 
 users.route('/session')
