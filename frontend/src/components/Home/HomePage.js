@@ -22,7 +22,10 @@ class HomePage extends Component {
         <Grid.Row>
           <h2>welcome, {this.props.currentUser.username}</h2>
         </Grid.Row>
-        {this.props.currentUser.authenticated ? <Library callWorker={this.callWorker}/> : <Authenticate discogsAuth={this.props.discogsAuth}/>}
+        {this.props.currentUser.authenticated ?
+          <Library callWorker={this.callWorker}/> :
+          <Authenticate
+            discogsAuth={this.props.discogsAuth} queryUserInfo={this.props.queryUserInfo}/>}
       </Grid>
     );
   }

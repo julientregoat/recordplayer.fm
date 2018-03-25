@@ -2,10 +2,9 @@ import React from 'react';
 
 import { Button } from 'semantic-ui-react'
 
-const Library = ({callWorker}) => (
+const Library = ({ callWorker, releases}) => (
   <div>
-    <p>Music stuff here, this the library</p>
-    <Button onClick={callWorker} basic color="yellow">SYNC</Button>
+    <Button onClick={callWorker} inverted color="blue">SYNC</Button>
   </div>
 );
 

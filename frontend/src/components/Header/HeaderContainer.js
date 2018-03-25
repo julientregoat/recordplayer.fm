@@ -17,7 +17,8 @@ const HeaderContainer = ({logout}) => (
         <Button
           className="logout-button"
           size="mini"
-          color="black"
+          color="blue"
+          inverted
           onClick={logout}>logout</Button>
       </Grid.Column>
     </Grid.Row>

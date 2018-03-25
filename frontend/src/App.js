@@ -50,6 +50,7 @@ class App extends Component {
             currentUser={this.state.currentUser}
             logout={this.logout}
             discogsAuth={this.authenticateDiscogs}
+            queryUserInfo={this.queryUserInfo}
             />}/> : null}
           <Route path="/access" render={routerProps => <AccessPage {...routerProps} login={this.login} currentUser={this.state.currentUser}/>}/>
           <Redirect to="/access" />
