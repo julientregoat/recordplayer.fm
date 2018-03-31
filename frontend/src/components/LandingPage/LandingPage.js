@@ -6,7 +6,7 @@ class LandingPage extends Component {
 
   render() {
     return (
-      <Grid className="page">
+      <Grid className="landing-page">
         <Grid.Row centered>
           <h1> welcome to recordplayer.fm</h1>
         </Grid.Row>

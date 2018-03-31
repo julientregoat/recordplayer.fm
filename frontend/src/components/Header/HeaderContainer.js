@@ -8,9 +8,9 @@ import logo from './turntable.svg'
 
 const HeaderContainer = ({currentUser, logout}) => (
   <Grid>
-    <Grid.Row className="header" verticalAlign="middle">
-      <Grid.Column width={6}>
-        <Header as="h1" className="text-focus-in">
+    <Grid.Row centered className="header text-focus-in" verticalAlign="middle">
+      <Grid.Column width={6} className="header-logo-container">
+        <Header as="h1">
           <Image src={logo} className="header-logo" alt="logo" />
           recordplayer.fm
         </Header>
@@ -20,19 +20,22 @@ const HeaderContainer = ({currentUser, logout}) => (
         <NavBar />
       </Grid.Column>
 
-      <Grid.Column width={4} textAlign="right">
+      <Grid.Column width={2}>
+        {currentUser ? "hello, " + currentUser.username : "let's jam!"}
+      </Grid.Column>
+
+      <Grid.Column width={2} textAlign="right">
         {currentUser ?
           <Button
-          className="logout-button"
           size="mini"
-          color="blue"
-          inverted
+          color="black"
+          className=""
+          basic
           onClick={logout}>logout</Button> :
           <Button
-            className="logout-button"
             size="mini"
-            color="blue"
-            inverted> login </Button>}
+            color="black"
+            basic> login </Button>}
       </Grid.Column>
     </Grid.Row>
   </Grid>

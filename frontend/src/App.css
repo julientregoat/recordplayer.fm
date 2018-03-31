@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300|Roboto+Condensed:700');
 
-/*  general layout */
+/*  general */
 
 body {
   background-image: url('./topography.png');
@@ -15,7 +15,6 @@ h1, h2, h3, h4, h5, h6 {
 .app {
   margin-left: 100px !important;
   margin-right: 100px !important;
-  margin-top: 10px !important;
 }
 
 .large-message {
@@ -28,10 +27,21 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 10px !important;
 }
 
-.header-logo{
+.header-logo-container {
+  margin-top: 15px !important;
+}
+
+.header-logo {
   height: 100px !important;
   width: 100px !important;
 }
+
+.navbar-item {
+  margin-right: 10px;
+  font-size: 14pt;
+}
+
+/*  header animation */
 
 @-webkit-keyframes text-focus-in {
   0% {
@@ -63,25 +73,26 @@ h1, h2, h3, h4, h5, h6 {
 	        animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 }
 
-/*  general styling stuff */
+/*  landing page */
 
-.page {
+.landing-page {
   margin-left: 100px;
-  margin-right:100px;
-}
-
-/*  access page */
-
-.change-form {
-  margin-top: 25px;
+  margin-right: 100px;
 }
 
 /*  home page */
 
 .home-page {
   margin-left: 50px !important;
+  margin-right: 50px !important;
 }
 
-.logout-button {
-  margin-right: 50px !important;
+.collection-loader {
+  margin-top: 60px !important;
+}
+
+/*  access page */
+
+.change-form {
+  margin-top: 25px;
 }

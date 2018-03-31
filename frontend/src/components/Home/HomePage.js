@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
-import { withRouter, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 import Collection from './Collection'
 import Authenticate from './Authenticate'
@@ -56,26 +56,27 @@ class HomePage extends Component {
   }
 
   render() {
+    console.log(Loader)
     return (
       <Grid className="home-page">
-        <Grid.Row>
-          <h2>welcome, {this.props.currentUser.username}</h2>
-        </Grid.Row>
+        {this.state.loading ? <Loader active size="massive" className="collection-loader"/> : null}
         {this.props.currentUser.authenticated ?
-          (this.state.loading ? <Loader active size="massive"/> : <Collection
+          <Collection
             callWorker={this.callWorker}
             tracks={this.state.tracks}
             syncing={this.state.syncing}
             page={this.state.page}
             totalPages={this.state.totalPages}
-            changePage={this.changePage}/>) :
+            changePage={this.changePage}
+          /> :
           <Authenticate
             discogsAuth={this.props.discogsAuth}
-            queryUserInfo={this.props.queryUserInfo}/>}
+            queryUserInfo={this.props.queryUserInfo}
+          />}
       </Grid>
     );
   }
 
 }
 
-export default withRouter(HomePage);
+export default HomePage;
