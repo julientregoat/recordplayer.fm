@@ -63,6 +63,13 @@ h1, h2, h3, h4, h5, h6 {
 	        animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 }
 
+/*  general styling stuff */
+
+.page {
+  margin-left: 100px;
+  margin-right:100px;
+}
+
 /*  access page */
 
 .change-form {

@@ -85,7 +85,6 @@ class AccessPage extends Component {
         <Grid.Row centered>
           {this.formChanger()}
         </Grid.Row>
-        {this.props.currentUser ? <Redirect to="/home"/> : null}
       </Grid>
     );
   }

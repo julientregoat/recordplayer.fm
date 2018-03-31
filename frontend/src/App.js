@@ -45,25 +45,35 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <HeaderContainer logout={this.logout}/>
+        <HeaderContainer
+          currentUser={this.state.currentUser}
+          logout={this.logout}
+          />
         <Switch>
           <Route exact path="/" component={LandingPage} />
-          {this.state.currentUser ?
-            <React.Fragment>
-              <Route path="/home"
-                render={routerProps =>
-                  <HomePage
-                    {...routerProps}
-                    currentUser={this.state.currentUser}
-                    logout={this.logout}
-                    discogsAuth={this.authenticateDiscogs}
-                    queryUserInfo={this.queryUserInfo}
-                  />}
-              />
-              <Route path="/playlists" component={PlaylistsPage}/>
-            </React.Fragment>
-          : null}
-          <Route path="/access" render={routerProps => <AccessPage {...routerProps} login={this.login} currentUser={this.state.currentUser}/>}/>
+          <Route path="/home"
+            render={routerProps =>
+              this.state.currentUser ?
+              <HomePage
+                {...routerProps}
+                currentUser={this.state.currentUser}
+                logout={this.logout}
+                discogsAuth={this.authenticateDiscogs}
+                queryUserInfo={this.queryUserInfo}
+              /> :
+              <Redirect to="/access" />
+            }
+          />
+          <Route path="/access"
+            render={routerProps =>
+              !this.state.currentUser ?
+              <AccessPage
+                {...routerProps}
+                login={this.login}
+              /> :
+              <Redirect to="/home" />
+            }
+          />
         </Switch>
       </div>
     );
