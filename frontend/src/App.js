@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom'
 
 import HeaderContainer from './components/Header/HeaderContainer'
+import LandingPage from './components/LandingPage/LandingPage'
 import AccessPage from './components/AccessPage/AccessPage'
 import HomePage from './components/Home/HomePage'
 import PlaylistsPage from './components/Playlists/PlaylistsPage'
@@ -41,25 +42,28 @@ class App extends Component {
     window.localStorage.removeItem('currentUser')
   }
 
-
   render() {
     return (
       <div className="app">
         <HeaderContainer logout={this.logout}/>
         <Switch>
+          <Route exact path="/" component={LandingPage} />
           {this.state.currentUser ?
-            <Route path="/home"
-              render={routerProps =>
-                <HomePage
-                  {...routerProps}
-                  currentUser={this.state.currentUser}
-                  logout={this.logout}
-                  discogsAuth={this.authenticateDiscogs}
-                  queryUserInfo={this.queryUserInfo}
-                />}
-            />: null}
+            <React.Fragment>
+              <Route path="/home"
+                render={routerProps =>
+                  <HomePage
+                    {...routerProps}
+                    currentUser={this.state.currentUser}
+                    logout={this.logout}
+                    discogsAuth={this.authenticateDiscogs}
+                    queryUserInfo={this.queryUserInfo}
+                  />}
+              />
+              <Route path="/playlists" component={PlaylistsPage}/>
+            </React.Fragment>
+          : null}
           <Route path="/access" render={routerProps => <AccessPage {...routerProps} login={this.login} currentUser={this.state.currentUser}/>}/>
-          <Redirect to="/access" />
         </Switch>
       </div>
     );

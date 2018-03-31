@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 
 import Collection from './Collection'
 import Authenticate from './Authenticate'
@@ -31,8 +31,8 @@ class HomePage extends Component {
       fetch(`http://localhost:3001/api/users/${this.props.currentUser.id}/collection?size=100&page=${this.state.page}`)
       .then(res => res.json())
       .then(result => {
-        console.log(result)
-        this.setState({totalPages: result.totalPages, tracks: result.tracks, loading: false})})
+        // subtracting one page to account for the 0 index
+        this.setState({totalPages: result.totalPages - 1, tracks: result.tracks, loading: false})})
     }
   }
 
@@ -78,4 +78,4 @@ class HomePage extends Component {
 
 }
 
-export default HomePage;
+export default withRouter(HomePage);

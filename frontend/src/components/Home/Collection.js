@@ -40,7 +40,7 @@ const Collection = ({ callWorker, tracks, syncing, page, totalPages, changePage 
               <Table.Cell>{track.Release.Artists.map(artist => artist.name)}</Table.Cell>
               <Table.Cell>{track.Release.title}</Table.Cell>
               <Table.Cell>{track.Release.catno}</Table.Cell>
-              <Table.Cell><Icon name="sound"/></Table.Cell>
+              <Table.Cell><Icon name="sound" onClick={() => window.open("http://youtube.com/watch?v=" + track.Video.youtube_id)}/></Table.Cell>
               <Table.Cell><Icon name="add"/></Table.Cell>
             </Table.Row>)
         ) : null}
