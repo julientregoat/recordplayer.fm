@@ -9,6 +9,7 @@ import PlaylistsPage from './components/Playlists/PlaylistsPage'
 import './App.css';
 
 class App extends Component {
+
   state = {
     currentUser: null
   }
@@ -42,6 +43,7 @@ class App extends Component {
     window.localStorage.removeItem('currentUser')
   }
 
+  // create an authentication HOC so the conditonal rendering is DRY
   render() {
     return (
       <div className="app">
@@ -61,17 +63,31 @@ class App extends Component {
                 discogsAuth={this.authenticateDiscogs}
                 queryUserInfo={this.queryUserInfo}
               /> :
-              <Redirect to="/access" />
+              <Redirect to="/access?from=home" />
+            }
+          />
+          <Route path="/playlists"
+            render={routerProps =>
+              this.state.currentUser ?
+              <PlaylistsPage
+                {...routerProps}
+                currentUser={this.state.currentUser}
+                logout={this.logout}
+                discogsAuth={this.authenticateDiscogs}
+                queryUserInfo={this.queryUserInfo}
+              /> :
+              <Redirect to="/access?from=playlists" />
             }
           />
           <Route path="/access"
-            render={routerProps =>
-              !this.state.currentUser ?
+            render={routerProps => {
+              let referrer = routerProps.location.search.split('?from=')[1] || "home"
+              return (!this.state.currentUser ?
               <AccessPage
                 {...routerProps}
                 login={this.login}
               /> :
-              <Redirect to="/home" />
+              <Redirect to={"/" + referrer} />)}
             }
           />
         </Switch>
