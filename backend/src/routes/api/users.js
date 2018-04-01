@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt')
 
 users.route('/')
 .get((req, res) => {
+  // what do I do with this get part?
   // User.findById(1)
   // .then(user => user.getPlaylists({where: {name: "Collection"}}))
   // .then(playlists => playlists[0].getTracks())
@@ -34,6 +35,25 @@ users.route('/')
 
 })
 
+users.route('/session')
+.post((req, res) => {
+  let selectedUser;
+  User.find({where: {username: req.body.username}})
+  .then(user => {
+    selectedUser = user
+    return bcrypt.compare(req.body.password, user.password_digest)
+  })
+  .then(result => {
+    if (result){
+      res.json({user: selectedUser})
+    } else {
+      res.json({error: "User not found or password is incorerct."})
+    }
+  })
+  .catch(error => res.json({error: "User not found or password is incorerct."}))
+})
+
+
 users.route('/:id')
 .get((req, res) => {
   let id = req.params.id;
@@ -43,7 +63,6 @@ users.route('/:id')
 
 users.route('/:id/collection')
 .get((req, res) => {
-  console.log(req.params, req.query)
   let id = req.params.id;
   // defaults if there is no query added
   let page = req.query.page || 0
@@ -83,22 +102,9 @@ users.route('/:id/collection')
   })
 })
 
-users.route('/session')
-.post((req, res) => {
-  let selectedUser;
-  User.find({where: {username: req.body.username}})
-  .then(user => {
-    selectedUser = user
-    return bcrypt.compare(req.body.password, user.password_digest)
-  })
-  .then(result => {
-    if (result){
-      res.json({user: selectedUser})
-    } else {
-      res.json({error: "User not found or password is incorerct."})
-    }
-  })
-  .catch(error => res.json({error: "User not found or password is incorerct."}))
+users.route('/:id/playlists')
+.get((req, res) => {
+  console.log(req.params, req.query)
+  // route to list of all user playlists here
 })
-
 export default users

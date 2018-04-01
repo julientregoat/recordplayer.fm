@@ -5,6 +5,7 @@ class PlaylistsPage extends Component {
   fetchPlaylists = () => {
     fetch(`http://localhost:3001/users/${this.props.currentUser}/playlists`)
     .then(console.log)
+    .catch(console.log)
   }
 
   render() {

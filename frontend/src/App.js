@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom'
 
 import HeaderContainer from './components/Header/HeaderContainer'
-import LandingPage from './components/LandingPage/LandingPage'
-import AccessPage from './components/AccessPage/AccessPage'
-import HomePage from './components/Home/HomePage'
+import LandingPage from './components/Landing/LandingPage'
+import AccessPage from './components/Access/AccessPage'
+import CollectionPage from './components/Collection/CollectionPage'
+import AccountPage from './components/Account/AccountPage'
 import PlaylistsPage from './components/Playlists/PlaylistsPage'
 import './App.css';
 
@@ -59,7 +60,7 @@ class App extends Component {
           <Route path="/collection"
             render={routerProps =>
               this.state.currentUser ?
-              <HomePage
+              <CollectionPage
                 {...routerProps}
                 currentUser={this.state.currentUser}
                 logout={this.logout}
@@ -101,6 +102,7 @@ class App extends Component {
               <Redirect to={"/" + referrer} />)
             }}
           />
+          <Redirect to="/" />
         </Switch>
       </div>
     );
