@@ -80,11 +80,11 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 100px;
 }
 
-/*  home page */
+/*  collection page */
 
-.home-page {
-  margin-left: 50px !important;
-  margin-right: 50px !important;
+.collection-page {
+  margin-left: 25px !important;
+  margin-right: 25px !important;
 }
 
 .collection-loader {

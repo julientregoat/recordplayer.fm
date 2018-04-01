@@ -58,7 +58,7 @@ class HomePage extends Component {
   render() {
     console.log(Loader)
     return (
-      <Grid className="home-page">
+      <Grid className="collection-page">
         {this.state.loading ? <Loader active size="massive" className="collection-loader"/> : null}
         {this.props.currentUser.authenticated ?
           <Collection
@@ -70,8 +70,7 @@ class HomePage extends Component {
             changePage={this.changePage}
           /> :
           <Authenticate
-            discogsAuth={this.props.discogsAuth}
-            queryUserInfo={this.props.queryUserInfo}
+            authenticateDiscogs={this.authenticateDiscogs}
           />}
       </Grid>
     );

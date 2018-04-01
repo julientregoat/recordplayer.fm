@@ -14,7 +14,7 @@ class App extends Component {
     currentUser: null
   }
 
-  // use localstorage more securely when I get serious about deploying
+  // use currentUser/localstorage more securely when I get serious about deploying
   componentDidMount(){
     if (window.localStorage.currentUser && window.localStorage.currentUser !== 'undefined'){
       this.setState({currentUser: JSON.parse(window.localStorage.currentUser)})
@@ -22,12 +22,14 @@ class App extends Component {
   }
 
   authenticateDiscogs = () => {
+    // maybe I can query the DB to get back the link instead of exposing the back end url
     window.open(`http://localhost:3001/discogs/authorize?user=${this.state.currentUser.id}`,"Discogs Authoritzation",
     "toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=1000,height=600")
     setTimeout(() => this.queryUserInfo(this.state.currentUser.id), 10000)
   }
 
   queryUserInfo = id => {
+    // this should become an authenticated request with JWT
     fetch(`http://localhost:3001/api/users/${id}`)
     .then(res => res.json())
     .then(user => this.login(user))
@@ -44,6 +46,7 @@ class App extends Component {
   }
 
   // create an authentication HOC so the conditonal rendering is DRY
+  // will also need a discogs auth HOC for once the user is logged in
   render() {
     return (
       <div className="app">
@@ -53,17 +56,16 @@ class App extends Component {
           />
         <Switch>
           <Route exact path="/" component={LandingPage} />
-          <Route path="/home"
+          <Route path="/collection"
             render={routerProps =>
               this.state.currentUser ?
               <HomePage
                 {...routerProps}
                 currentUser={this.state.currentUser}
                 logout={this.logout}
-                discogsAuth={this.authenticateDiscogs}
-                queryUserInfo={this.queryUserInfo}
+                authenticateDiscogs={this.authenticateDiscogs}
               /> :
-              <Redirect to="/access?from=home" />
+              <Redirect to="/access?from=collection" />
             }
           />
           <Route path="/playlists"
@@ -73,22 +75,31 @@ class App extends Component {
                 {...routerProps}
                 currentUser={this.state.currentUser}
                 logout={this.logout}
-                discogsAuth={this.authenticateDiscogs}
-                queryUserInfo={this.queryUserInfo}
               /> :
               <Redirect to="/access?from=playlists" />
             }
           />
+        <Route path="/account"
+            render={routerProps =>
+              this.state.currentUser ?
+              <AccountPage
+                {...routerProps}
+                currentUser={this.state.currentUser}
+                logout={this.logout}
+              /> :
+              <Redirect to="/access?from=account" />
+            }
+          />
           <Route path="/access"
             render={routerProps => {
-              let referrer = routerProps.location.search.split('?from=')[1] || "home"
+              let referrer = routerProps.location.search.split('?from=')[1] || "collection"
               return (!this.state.currentUser ?
               <AccessPage
                 {...routerProps}
                 login={this.login}
               /> :
-              <Redirect to={"/" + referrer} />)}
-            }
+              <Redirect to={"/" + referrer} />)
+            }}
           />
         </Switch>
       </div>
