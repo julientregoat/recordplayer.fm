@@ -10,7 +10,7 @@ var _express2 = _interopRequireDefault(_express);
 
 var _models = require('../../../models');
 
-var _env = require('../../env');
+var _env = require('../../../env.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,6 +21,11 @@ var DiscogsClient = require('disconnect').Client;
 
 var users = _express2.default.Router();
 var bcrypt = require('bcrypt');
+
+// need to implement JWT for access to this info
+
+
+// user creation
 
 users.route('/').get(function (req, res) {
   // what do I do with this get part?
@@ -42,6 +47,8 @@ users.route('/').get(function (req, res) {
     return res.json({ error: error });
   });
 });
+
+// should session be moved to a different part of the API? user login stuff here
 
 users.route('/session').post(function (req, res) {
   var selectedUser = void 0;
@@ -66,6 +73,8 @@ users.route('/:id').get(function (req, res) {
   });
 });
 
+// get main collection
+
 users.route('/:id/collection').get(function (req, res) {
   var id = req.params.id;
   // defaults if there is no query added
@@ -73,10 +82,15 @@ users.route('/:id/collection').get(function (req, res) {
   var size = req.query.size || 100;
   var range = [size * page, size * page + 100];
   var totalPages = void 0;
-  _models.User.findById(id).then(function (user) {
+  _models.User.findById(id)
+  // maybe can use 'include' here to just grab the tracks
+  .then(function (user) {
     return user.getPlaylists({ where: { name: 'Collection' } });
   }).then(function (playlists) {
-    return Promise.all([_models.Track.findAndCountAll({
+    return Promise.all([
+    // this can probably refactored into more of a 'find the collection playlist, and count the number of tracks within that'
+    // especially since I'm already getting all tracks with 'playlists[0].getTracks', that can just be .count()-ed.
+    _models.Track.findAndCountAll({
       include: [{
         model: _models.Playlist,
         where: {
@@ -85,6 +99,7 @@ users.route('/:id/collection').get(function (req, res) {
         }
       }]
     }), playlists[0].getTracks({
+      // refactor this to use build in Sequelize pagination queries
       where: {
         id: _defineProperty({}, _models.Sequelize.Op.between, range)
       },
@@ -101,6 +116,14 @@ users.route('/:id/collection').get(function (req, res) {
 
 users.route('/:id/playlists').get(function (req, res) {
   console.log(req.params, req.query);
-  // route to list of all user playlists here
+  _models.User.findById(req.params.id).then(function (user) {
+    return user.getPlaylists();
+  }).then(function (playlists) {
+    res.send(playlists);
+  });
+}).post(function (req, res) {
+  console.log(req.body);
+  res.json({ message: 'creating new playlist' });
 });
+
 exports.default = users;

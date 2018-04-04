@@ -4,7 +4,7 @@ const discogs = Express.Router()
 import { User, Release } from '../../models'
 
 const DiscogsClient = require('disconnect').Client
-import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env'
+import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env.js'
 import discogsWorker from '../lib/discogsWorker'
 
 // how dangerous are these variables? can they be overwritten if two people overlap when authorizing discogs accounts?

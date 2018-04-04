@@ -10,7 +10,7 @@ var _express2 = _interopRequireDefault(_express);
 
 var _models = require('../../models');
 
-var _env = require('../../env');
+var _env = require('../../env.js');
 
 var _discogsWorker = require('../lib/discogsWorker');
 

@@ -2,10 +2,16 @@ import Express from 'express'
 import { User, Playlist, Release, Video, Sequelize, Artist, Track } from '../../../models'
 
 const DiscogsClient = require('disconnect').Client
-import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env'
+import { CONSUMER_KEY, CONSUMER_SECRET } from '../../../env.js'
 
 const users = Express.Router()
 const bcrypt = require('bcrypt')
+
+
+// need to implement JWT for access to this info
+
+
+// user creation
 
 users.route('/')
 .get((req, res) => {
@@ -35,6 +41,8 @@ users.route('/')
 
 })
 
+// should session be moved to a different part of the API? user login stuff here
+
 users.route('/session')
 .post((req, res) => {
   let selectedUser;
@@ -61,6 +69,8 @@ users.route('/:id')
   .then(user => res.json(user))
 })
 
+// get main collection
+
 users.route('/:id/collection')
 .get((req, res) => {
   let id = req.params.id;
@@ -70,9 +80,12 @@ users.route('/:id/collection')
   let range = [size*page, size*page + 100]
   let totalPages;
   User.findById(id)
-  .then(user => user.getPlaylists({where: {name: 'Collection'}}))
+  // maybe can use 'include' here to just grab the tracks
+   .then(user => user.getPlaylists({where: {name: 'Collection'}}))
   .then(playlists => {
     return Promise.all([
+  // this can probably refactored into more of a 'find the collection playlist, and count the number of tracks within that'
+  // especially since I'm already getting all tracks with 'playlists[0].getTracks', that can just be .count()-ed.
       Track.findAndCountAll({
         include: [{
           model: Playlist,
@@ -83,6 +96,7 @@ users.route('/:id/collection')
         }]
       }),
       playlists[0].getTracks({
+        // refactor this to use build in Sequelize pagination queries
         where: {
           id: {[Sequelize.Op.between]: range}
         },
@@ -105,6 +119,16 @@ users.route('/:id/collection')
 users.route('/:id/playlists')
 .get((req, res) => {
   console.log(req.params, req.query)
-  // route to list of all user playlists here
+  User.findById(req.params.id)
+  .then(user => user.getPlaylists())
+  .then(playlists => {
+    res.send(playlists)
+  })
 })
+.post((req, res) => {
+  console.log(req.body)
+  res.json({message: 'creating new playlist'})
+})
+
+
 export default users
