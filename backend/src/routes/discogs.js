@@ -4,10 +4,10 @@ const discogs = Express.Router()
 import { User, Release } from '../../models'
 
 const DiscogsClient = require('disconnect').Client
-import { CONSUMER_KEY, CONSUMER_SECRET } from '../../env.js'
 import discogsWorker from '../lib/discogsWorker'
 
 // how dangerous are these variables? can they be overwritten if two people overlap when authorizing discogs accounts?
+// need to fix asap
 
 let userID;
 let userIdentity;
@@ -32,11 +32,12 @@ discogs.get('/test', (req, res) => {
 })
 
 discogs.get('/authorize', (req, res) => {
+	console.log(process.env)
 	userID = req.query['user']
 	const oAuth = new DiscogsClient().oauth();
 	oAuth.getRequestToken(
-		CONSUMER_KEY,
-		CONSUMER_SECRET,
+		process.env.CONSUMER_KEY,
+		process.env.CONSUMER_SECRET,
 		'http://localhost:3001/discogs/callback',
 		function(err, data){
       requestData = data;
@@ -70,7 +71,7 @@ discogs.route('/callback').get((req, res) => {
 discogs.route('/worker').post((req, res) => {
 	console.log(req.body)
   User.findById(req.body.id)
-  .then(user => discogsWorker(new DiscogsClient({method: 'oauth', level: 2, consumerKey: CONSUMER_KEY, consumerSecret: CONSUMER_SECRET, token: user.oauth_token, token_secret: user.oauth_token_secret}), user.id))
+  .then(user => discogsWorker(new DiscogsClient({method: 'oauth', level: 2, consumerKey: process.env.CONSUMER_KEY, consumerSecret: process.env.CONSUMER_SECRET, token: user.oauth_token, token_secret: user.oauth_token_secret}), user.id))
 })
 
 export default discogs

@@ -10,8 +10,6 @@ var _express2 = _interopRequireDefault(_express);
 
 var _models = require('../../models');
 
-var _env = require('../../env.js');
-
 var _discogsWorker = require('../lib/discogsWorker');
 
 var _discogsWorker2 = _interopRequireDefault(_discogsWorker);
@@ -24,6 +22,7 @@ var DiscogsClient = require('disconnect').Client;
 
 
 // how dangerous are these variables? can they be overwritten if two people overlap when authorizing discogs accounts?
+// need to fix asap
 
 var userID = void 0;
 var userIdentity = void 0;
@@ -50,9 +49,10 @@ discogs.get('/test', function (req, res) {
 });
 
 discogs.get('/authorize', function (req, res) {
+	console.log(process.env);
 	userID = req.query['user'];
 	var oAuth = new DiscogsClient().oauth();
-	oAuth.getRequestToken(_env.CONSUMER_KEY, _env.CONSUMER_SECRET, 'http://localhost:3001/discogs/callback', function (err, data) {
+	oAuth.getRequestToken(process.env.CONSUMER_KEY, process.env.CONSUMER_SECRET, 'http://localhost:3001/discogs/callback', function (err, data) {
 		requestData = data;
 		res.redirect(requestData.authorizeUrl);
 	});
@@ -82,7 +82,7 @@ discogs.route('/callback').get(function (req, res) {
 discogs.route('/worker').post(function (req, res) {
 	console.log(req.body);
 	_models.User.findById(req.body.id).then(function (user) {
-		return (0, _discogsWorker2.default)(new DiscogsClient({ method: 'oauth', level: 2, consumerKey: _env.CONSUMER_KEY, consumerSecret: _env.CONSUMER_SECRET, token: user.oauth_token, token_secret: user.oauth_token_secret }), user.id);
+		return (0, _discogsWorker2.default)(new DiscogsClient({ method: 'oauth', level: 2, consumerKey: process.env.CONSUMER_KEY, consumerSecret: process.env.CONSUMER_SECRET, token: user.oauth_token, token_secret: user.oauth_token_secret }), user.id);
 	});
 });
 

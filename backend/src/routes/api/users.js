@@ -2,8 +2,6 @@ import Express from 'express'
 import { User, Playlist, Release, Video, Sequelize, Artist, Track } from '../../../models'
 
 const DiscogsClient = require('disconnect').Client
-import { CONSUMER_KEY, CONSUMER_SECRET } from '../../../env.js'
-
 const users = Express.Router()
 const bcrypt = require('bcrypt')
 
@@ -20,7 +18,7 @@ users.route('/')
   // .then(user => user.getPlaylists({where: {name: "Collection"}}))
   // .then(playlists => playlists[0].getTracks())
   // .then(console.log)
-  res.json({message: "working"})
+  res.json({message: "user get / endpoint"})
 })
 .post((req, res) => {
 
@@ -108,7 +106,6 @@ users.route('/:id/collection')
     ])
   })
   .then(results => {
-    console.log(results)
     res.json({
       totalPages: Math.ceil(results[0].count/size),
       tracks: results[1]
@@ -116,18 +113,16 @@ users.route('/:id/collection')
   })
 })
 
+// specifically for a user's playlist. should this be a query 
+// at the playlists route endpoint instead? or is this still convenient.
+// should I nest everything playlist related under users, since it's one to many
 users.route('/:id/playlists')
 .get((req, res) => {
-  console.log(req.params, req.query)
   User.findById(req.params.id)
   .then(user => user.getPlaylists())
   .then(playlists => {
     res.send(playlists)
   })
-})
-.post((req, res) => {
-  console.log(req.body)
-  res.json({message: 'creating new playlist'})
 })
 
 

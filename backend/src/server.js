@@ -5,6 +5,9 @@ import Express from 'express'
 const app = Express();
 const bodyParser = require('body-parser');
 
+import dotenv from 'dotenv'
+dotenv.config()
+
 import api from './routes/api'
 import discogs from './routes/discogs'
 

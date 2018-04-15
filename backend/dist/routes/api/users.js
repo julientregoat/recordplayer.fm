@@ -10,15 +10,11 @@ var _express2 = _interopRequireDefault(_express);
 
 var _models = require('../../../models');
 
-var _env = require('../../../env.js');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var DiscogsClient = require('disconnect').Client;
-
-
 var users = _express2.default.Router();
 var bcrypt = require('bcrypt');
 
@@ -33,7 +29,7 @@ users.route('/').get(function (req, res) {
   // .then(user => user.getPlaylists({where: {name: "Collection"}}))
   // .then(playlists => playlists[0].getTracks())
   // .then(console.log)
-  res.json({ message: "working" });
+  res.json({ message: "user get / endpoint" });
 }).post(function (req, res) {
 
   // hashing password for security
@@ -106,7 +102,6 @@ users.route('/:id/collection').get(function (req, res) {
       include: [{ model: _models.Video }, { model: _models.Release, include: { model: _models.Artist } }]
     })]);
   }).then(function (results) {
-    console.log(results);
     res.json({
       totalPages: Math.ceil(results[0].count / size),
       tracks: results[1]
@@ -114,16 +109,15 @@ users.route('/:id/collection').get(function (req, res) {
   });
 });
 
+// specifically for a user's playlist. should this be a query 
+// at the playlists route endpoint instead? or is this still convenient.
+// should I nest everything playlist related under users, since it's one to many
 users.route('/:id/playlists').get(function (req, res) {
-  console.log(req.params, req.query);
   _models.User.findById(req.params.id).then(function (user) {
     return user.getPlaylists();
   }).then(function (playlists) {
     res.send(playlists);
   });
-}).post(function (req, res) {
-  console.log(req.body);
-  res.json({ message: 'creating new playlist' });
 });
 
 exports.default = users;
