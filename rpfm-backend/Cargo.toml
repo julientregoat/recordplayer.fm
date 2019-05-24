@@ -1,0 +1,7 @@
+[package]
+name = "rpfm-backend"
+version = "0.1.0"
+authors = ["Julien Tregoat <jules@jules.nyc>"]
+edition = "2018"
+
+[dependencies]
