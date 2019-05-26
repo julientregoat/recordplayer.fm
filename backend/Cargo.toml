@@ -10,3 +10,5 @@ envy = "0.4"
 dotenv = "0.14.1"
 serde = "1.0.91"
 serde_derive = "1.0.91"
+
+[dev-dependencies]

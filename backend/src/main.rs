@@ -8,5 +8,5 @@ extern crate serde_derive;
 mod config;
 
 fn main() {
-  config::load();
+  let conf = config::Config::new();
 }
