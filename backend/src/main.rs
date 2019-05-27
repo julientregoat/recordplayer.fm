@@ -6,7 +6,10 @@ extern crate serde;
 extern crate serde_derive;
 
 mod config;
+mod db;
 
 fn main() {
   let conf = config::Config::new();
+  let connection = db::connect(&conf.db);
+
 }

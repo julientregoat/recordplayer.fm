@@ -1,5 +1,5 @@
-use std::env::{var};
-use dotenv::{dotenv};
+use std::env::var;
+use dotenv::dotenv;
 use envy::from_env;
 
 #[derive(Deserialize, Debug)]
